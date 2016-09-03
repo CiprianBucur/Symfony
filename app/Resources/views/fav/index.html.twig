@@ -4,42 +4,73 @@
 
 {% block body %}
     <h2 class="page-header">Latest Favorites</h2>
-    <table class="table table-striped">
+    <table class="table table-striped table-hover" border="0">
         <thead>
-        <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th></th>
-        </tr>
+            <tr class="info">
+                <th width="5%">#</th>
+                <th width="75%" class="text-center">Name</th>
+                <th width="20%" colspan="3"></th>
+            </tr>
         </thead>
         <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>unu</td>
-            <td>
-                <a href="/fav/details/1" class="btn btn-success">View</a>
-                <a href="/fav/edit/1" class="btn btn-primary">Edit</a>
-                <a href="/fav/delete/1" class="btn btn-danger" onclick="return false;">Delete</a>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>doi</td>
-            <td>
-                <a href="/fav/details/2" class="btn btn-success">View</a>
-                <a href="/fav/edit/2" class="btn btn-primary">Edit</a>
-                <a href="/fav/delete/2" class="btn btn-danger" onclick="return false;">Delete</a>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>trei</td>
-            <td>
-                <a href="/fav/details/3" class="btn btn-success">View</a>
-                <a href="/fav/edit/3" class="btn btn-primary">Edit</a>
-                <a href="/fav/delete/3" class="btn btn-danger" onclick="return false;">Delete</a>
-            </td>
-        </tr>
+            {% if favorites is empty %}
+                <tr>
+                    <th scope="row">1</th>
+                    <td>unu</td>
+                    <td>
+                        <a href="/fav/details/1" class="btn btn-success">View</a>
+                    </td>
+                    <td>
+                        <a href="/fav/edit/1" class="btn btn-primary">Edit</a>
+                    </td>
+                    <td>
+                        <a href="/fav/delete/1" class="btn btn-danger" onclick="return false;">Delete</a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>doi</td>
+                    <td>
+                        <a href="/fav/details/2" class="btn btn-success">View</a>
+                    </td>
+                    <td>
+                        <a href="/fav/edit/2" class="btn btn-primary">Edit</a>
+                    </td>
+                    <td>
+                        <a href="/fav/delete/2" class="btn btn-danger" onclick="return false;">Delete</a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>trei</td>
+                    <td>
+                        <a href="/fav/details/3" class="btn btn-success">View</a>
+                    </td>
+                    <td>
+                        <a href="/fav/edit/3" class="btn btn-primary">Edit</a>
+                    </td>
+                    <td>
+                        <a href="/fav/delete/3" class="btn btn-danger" onclick="return false;">Delete</a>
+                    </td>
+                </tr>
+            {% else %}
+                {% for fav in favorites %}
+                    <tr>
+                        <th scope="row">{{ fav.id }}</th>
+                        <td>{{ fav.name }}</td>
+                        <td>
+                            <a href="/fav/details/{{ fav.id }}" class="btn btn-success">View</a>
+                        </td>
+                        <td>
+                            <a href="/fav/edit/{{ fav.id }}" class="btn btn-primary">Edit</a>
+                        </td>
+                        <td>
+                            <a href="/fav/delete/{{ fav.id }}" class="btn btn-danger" onclick="return false;">Delete</a>
+                        </td>
+                    </tr>
+                    </tr>
+                {% endfor %}
+            {% endif %}
         </tbody>
     </table>
 {% endblock %}
