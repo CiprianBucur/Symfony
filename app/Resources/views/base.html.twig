@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Ciprian Bucur">
 
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    <title> {% block title %} Welcome! {% endblock %} </title>
 
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     {% block stylesheets %}{% endblock %}
@@ -29,8 +29,8 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/">Home</a></li>
-                <li><a href="/fav/create">Create</a></li>
+                <li {% block activeHome %}class="active"{% endblock %}><a href="/">Home</a></li>
+                <li {% block activeAdd %}{% endblock %}><a href="/fav/add">Create</a></li>
             </ul>
         </div>
     </div>
@@ -41,16 +41,34 @@
         <div class="col-md-12">
             <br><br><br>
             {% for flash_message in app.session.flashbag.get('notice') %}
-                <div class="alert alert-success">{{flash_message}}</div>
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    {{flash_message}}
+                </div>
             {% endfor %}
 
             {% for flash_message in app.session.flashbag.get('error') %}
-                <div class="alert alert-danger">{{flash_message}}</div>
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    {{flash_message}}
+                </div>
             {% endfor %}
             {% block body %}{% endblock %}
         </div>
     </div>
 </div>
-{% block javascripts %}{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $(".alert").slideToggle(1000);
+            }, 6000);
+        });
+    </script>
+{% endblock %}
 </body>
 </html>
