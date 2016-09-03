@@ -26,7 +26,7 @@ class SymfonyControlerController extends Controller {
      * @Route("/fav/details/{id}", name="view_fav")
      */
     public function viewAction($id) {
-        $this->addFlash('notice', 'Details of favorite: ' . $id . " .");
+        $this->addFlash('notice', 'Details of favorite: ' . $id . ".");
         return $this->render('fav/view.html.twig', array());
     }
 
@@ -34,7 +34,7 @@ class SymfonyControlerController extends Controller {
      * @Route("/fav/edit/{id}", name="edit_fav")
      */
     public function editAction($id) {
-        $this->addFlash('notice', 'Edited favorite: ' . $id . " .");
+        $this->addFlash('notice', 'Edited favorite: ' . $id . ".");
         return $this->render('fav/edit.html.twig', array());
     }
 
