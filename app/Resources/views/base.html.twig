@@ -10,7 +10,19 @@
     <title> {% block title %} Welcome! {% endblock %} </title>
 
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-    {% block stylesheets %}{% endblock %}
+    <style>
+        {% block stylesheets %}
+            .bb-alert {
+                position: fixed;
+                bottom: 25%;
+                right: 0;
+                margin-bottom: 0;
+                font-size: 1.2em;
+                padding: 1em 1.3em;
+                z-index: 2000;
+            }
+        {% endblock %}
+    </style>
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 </head>
 
@@ -59,16 +71,57 @@
         </div>
     </div>
 </div>
+
 {% block javascripts %}
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/bootbox.min.js') }}"></script>
+    <script src="{{ asset('js/example.js') }}"></script>
     <script>
         $(document).ready(function() {
+
             setTimeout(function() {
                 $(".alert").slideToggle(1000);
             }, 3000);
+
+            $(function () {
+                Example.init({
+                    "selector": ".bb-alert"
+                });
+            });
+
+            $(document).on("click", ".btn-danger", function(e) {
+                var page = ($(this).attr("href")).substring(1, ($(this).attr("href")).length);
+                var id = page.substring(page.lastIndexOf("/")+1, page.length);
+                bootbox.confirm({
+                    title: "Are you sure?",
+                    message: "Remove favorite: " + id + ".",
+                    buttons: {
+                        cancel: {
+                            label: "Cancel",
+                            className: "btn-default pull-right"
+                        },
+                        confirm: {
+                            label: "Delete",
+                            className: "btn-danger pull-left"
+                        }
+                    },
+                    callback: function (result) {
+                        if (result == true) {
+                            window.location.href = window.location.href + page;
+                        }
+                        else {
+                            Example.show("Delete canceled!");
+                        }
+                    }
+                });
+            });
         });
     </script>
+
+    <div class="bb-alert alert-info" style="display: none;">
+        <span></span>
+    </div>
 {% endblock %}
 </body>
 </html>
