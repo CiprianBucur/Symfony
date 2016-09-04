@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Ciprian Bucur">
+
+    <title> {% block title %} Login {% endblock %} </title>
+
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/signin.css') }}" rel="stylesheet">
+    <style>
+        {% block stylesheets %}
+        .bb-alert {
+            position: fixed;
+            bottom: 25%;
+            right: 0;
+            margin-bottom: 0;
+            font-size: 1.2em;
+            padding: 1em 1.3em;
+            z-index: 2000;
+        }
+        {% endblock %}
+    </style>
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+
+<body>
+
+<div class="container">
+    <div class="container">
+
+        <form class="form-signin">
+            <h2 class="form-signin-heading">Please sign in</h2>
+            <label for="inputEmail" class="sr-only">Email address</label>
+            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+<!--            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="remember-me"> Remember me
+                </label>
+            </div>-->
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            <span><a href="#">Need help?</a></span>
+            <span class="pull-right"><a id="register" >Register</a></span>
+        </form>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <br><br><br>
+            {% for flash_message in app.session.flashbag.get('notice') %}
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    {{flash_message}}
+                </div>
+            {% endfor %}
+
+            {% for flash_message in app.session.flashbag.get('error') %}
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    {{flash_message}}
+                </div>
+            {% endfor %}
+            {% block body %}{% endblock %}
+        </div>
+    </div>
+</div>
+
+{% block javascripts %}
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/bootbox.min.js') }}"></script>
+    <script src="{{ asset('js/example.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+
+            setTimeout(function() {
+                $(".alert").slideToggle(1000);
+            }, 4000);
+
+            $(function () {
+                Example.init({
+                    "selector": ".bb-alert"
+                });
+            });
+
+            $("#register").on('click', function() {
+                bootbox.dialog({
+                    title: "Register:",
+                    buttons: {
+                        success: {
+                             label: "Register",
+                             className: "btn-success",
+                             callback: function () {
+                                 var name = $('#name').val();
+                                 if (name == "") {
+                                     alert("Incorect name");
+                                     return false;
+                                 }
+                                 var email = $('#email').val();
+                                 if (email == "") {
+                                     alert("Incorect email");
+                                     return false;
+                                 }
+                                 var password = $('#password').val();
+                                 if (password == "") {
+                                     alert("Incorect password");
+                                     return false;
+                                 }
+                                 var password2 = $('#password2').val();
+                                 if (password2 == "") {
+                                     alert("Incorect verified password");
+                                     return false;
+                                 }
+                                 if (password2 != password) {
+                                     alert("Incorect verified password");
+                                     return false;
+                                 }
+
+                                 var answer = $("input[name='awesomeness']:checked").val()
+                                 Example.show("Hello " + name + ". You've chosen <b>" + answer + "</b>");
+                             }
+                        }
+                    },
+                    message:
+                    '<div class="row">  ' +
+                    '<div class="col-md-12"> ' +
+                    '<form class="form-horizontal" name="newUserForm"> ' +
+                    '<div class="form-group"> ' +
+                    '<label class="col-md-4 control-label" for="name">Name: </label> ' +
+                    '<div class="col-md-6"> ' +
+                    '<input id="name" name="name" type="text" placeholder="Your name" class="form-control input-md" required> ' +
+                    '</div> ' +
+                    '</div> ' +
+                    '<div class="form-group"> ' +
+                    '<label class="col-md-4 control-label" for="name">E-mail: </label> ' +
+                    '<div class="col-md-6"> ' +
+                    '<input id="email" name="email" type="email" placeholder="Your e-mail" class="form-control input-md" required> ' +
+                    '</div> </div>' +
+                    '<div class="form-group"> ' +
+                    '<label class="col-md-4 control-label" for="name">Password: </label> ' +
+                    '<div class="col-md-6"> ' +
+                    '<input id="password" name="password" type="password" placeholder="Password" class="form-control input-md" required> ' +
+                    '</div> ' +
+                    '</div> ' +
+                    '<div class="form-group"> ' +
+                    '<label class="col-md-4 control-label" for="name">Verify Password: </label> ' +
+                    '<div class="col-md-6"> ' +
+                    '<input id="password2" name="password2" type="password" placeholder="Verify Password" class="form-control input-md" required> ' +
+                    '</div> ' +
+                    '</div> ' +
+                    '<div class="form-group"> ' +
+                    '<label class="col-md-4 control-label" for="awesomeness">How awesome is this?</label> ' +
+                    '<div class="col-md-4"> <div class="radio"> <label for="awesomeness-0"> ' +
+                    '<input type="radio" name="awesomeness" id="awesomeness-0" value="Really awesome" checked="checked"> ' +
+                    'Really awesome </label> ' +
+                    '</div><div class="radio"> <label for="awesomeness-1"> ' +
+                    '<input type="radio" name="awesomeness" id="awesomeness-1" value="Super awesome"> Super awesome </label> ' +
+                    '</div> ' +
+                    '</div> </div>' +
+                    '</form> </div>  </div>'
+
+                });
+            });
+        });
+    </script>
+
+    <div class="bb-alert alert-info" style="display: none;">
+        <span></span>
+    </div>
+{% endblock %}
+</body>
+</html>

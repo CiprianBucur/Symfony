@@ -27,6 +27,26 @@ class SymfonyControlerController extends Controller {
     }
 
     /**
+     * @Route("/login", name="login")
+     */
+    public function loginAction() {
+
+        $users = $this->getDoctrine()
+            ->getRepository('AppBundle:users')
+            ->findAll();
+
+        return $this->render('login/login.html.twig', array(
+            'users' => $users
+        ));
+    }
+    /**
+     * @Route("/register", name="register")
+     */
+    public function registerAction() {
+        return $this->render('login/register.html.twig', array());
+    }
+
+    /**
      * @Route("/fav/add", name="add_fav")
      */
     public function addAction(Request $request) {
