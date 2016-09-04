@@ -5,6 +5,10 @@
 {% block activeAdd %} {% endblock %}
 
 {% block body %}
-    <h2 class="page-header">Edit favorite</h2>
-
+    <br><br>
+    <a href="/" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-left"> </span> Back to favorites list</a>
+    <h2 class="page-header">Editing favorite: {{ favorites.name }}</h2>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
 {% endblock %}

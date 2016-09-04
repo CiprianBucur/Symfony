@@ -7,6 +7,10 @@
 {% block body %}
     <br><br>
     <a href="/" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-left"> </span> Back to favorites list</a>
-    <h2 class="page-header">View Favorites</h2>
+    <h2 class="page-header">Viewing Favorite: {{ favorites.name }}</h2>
+    <ul class="list-group">
 
+        <li class="list-group-item"><strong>Description: </strong>{{ favorites.description }}</li>
+        <li class="list-group-item"><strong>Date: </strong>{{ favorites.lastUpdated | date('l, d F Y H:i:s') }}</li>
+    </ul>
 {% endblock %}
