@@ -163,6 +163,31 @@ class users
         return $this->login;
     }
 
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     *
+     * @return users
+     */
+    public function setEmail($login)
+    {
+        $this->login = $login;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->login;
+    }
+
     /**
      * Set modifiedBy
      *
