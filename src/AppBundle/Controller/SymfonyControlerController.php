@@ -3,8 +3,12 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bridge\Doctrine\Tests\Fixtures\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\Symfony;
+use AppBundle\Entity\users;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,9 +25,109 @@ class SymfonyControlerController extends Controller {
             ->getRepository('AppBundle:Symfony')
             ->findAll();
 
-        return $this->render('fav/index.html.twig', array(
+        return $this->render('login/login.html.twig', array(
+        //return $this->render('fav/index.html.twig', array(
             'favorites' => $favorites
         ));
+    }
+
+    /**
+     * @Route("/login", name="login")
+     */
+    public function loginAction() {
+
+        $users = $this->getDoctrine()
+            ->getRepository('AppBundle:users')
+            ->findAll();
+
+        return $this->render('login/login.html.twig', array(
+            'users' => $users
+        ));
+    }
+    /**
+     * @Route("/register", name="register")
+     */
+    public function registerAction(Request $request) {
+        $newUser = new users();
+        $form = $this->createFormBuilder($newUser)
+
+            ->add('name', TextType::class,
+                array(
+                    'label' => 'Name: ',
+                    'attr' =>
+                        array('class' => 'form-control', 'style' => 'margin-bottom: 15px', 'autofocus' => true
+                        )
+                ))
+            ->add('login', EmailType::class,
+                array(
+                    'label' => 'E-mail: ',
+                    'attr' =>
+                        array('class' => 'form-control', 'style' => 'margin-bottom: 15px')
+                ))
+            ->add('password', PasswordType::class,
+                array(
+                    'label' => 'Password: ',
+                    'attr' =>
+                        array('class' => 'form-control', 'style' => 'margin-bottom: 15px')
+                ))
+            ->add('password2', PasswordType::class,
+                array(
+                    'label' => 'Re-type password: ',
+                    'mapped' => false,
+                    'attr' =>
+                        array('class' => 'form-control', 'style' => 'margin-bottom: 15px')
+                ))
+            ->add('save', SubmitType::class,
+                array(
+                    'label' => 'Register',
+                    'attr' =>
+                        array('class' => 'btn btn-primary pull-right', 'style' => 'margin-bottom: 15px')
+                ))
+
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $name = $form['name']->getData();
+            if (trim($name) == "") {
+                $this->addFlash('error', 'Incorect name.');
+                return $this->render('login/register.html.twig', array('form' => $form->createView()));
+            }
+            $password = $form['password']->getData();
+            if (trim($password) == "") {
+                $this->addFlash('error', 'Incorect password.');
+                return $this->render('login/register.html.twig', array('form' => $form->createView()));
+            }
+            $password2 = $form['password2']->getData();
+            if (trim($password2) == "") {
+                $this->addFlash('error', 'Incorect password.');
+                return $this->render('login/register.html.twig', array('form' => $form->createView()));
+            }
+            if ($password != $password2) {
+                $this->addFlash('error', 'The passwords must be the same.');
+                return $this->render('login/register.html.twig', array('form' => $form->createView()));
+            }
+
+            $login = $form['login']->getData();
+            $now = new\DateTime('now');
+
+/*
+            $newUser->setName($name);
+            $newUser->setLogin($login);
+            $newUser->setPassword($password);
+            $newUser->setLastUpdated($now);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($newUser);
+            $em->flush();
+
+            $this->addFlash('notice', 'User added.');
+            return $this->redirectToRoute('login');
+  */
+        }
+
+        return $this->render('login/register.html.twig', array('form' => $form->createView()));
     }
 
     /**

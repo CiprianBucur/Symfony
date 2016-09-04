@@ -1,0 +1,21 @@
+{% extends 'login.html.twig' %}
+
+{% block title %} Register {% endblock %}
+
+{%  block body %}
+    <div class="form-signin">
+        <h2 class="form-signin-heading">Registering new user: </h2>
+        <br>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+        <span class="pull-left"><a href ="login" id="login">Back to login</a></span>
+<!--        <input type="text" id="inputName" class="form-control" placeholder="Name" required autofocus>
+        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <input type="password" id="inputPassword2" class="form-control" placeholder="Verify Password" required>
+        <br>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+        <span class="pull-right"><a href ="login" id="login" >Login</a></span>-->
+    </div>
+{% endblock %}
