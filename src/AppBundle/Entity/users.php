@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Symfony
+ * users
  *
- * @ORM\Table(name="symfony")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\SymfonyRepository")
+ * @ORM\Table(name="users")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\usersRepository")
  */
-class Symfony
+class users
 {
     /**
      * @var int
@@ -31,9 +31,9 @@ class Symfony
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=255)
+     * @ORM\Column(name="password", type="string", length=255)
      */
-    private $description;
+    private $password;
 
     /**
      * @var \DateTime
@@ -41,6 +41,20 @@ class Symfony
      * @ORM\Column(name="lastUpdated", type="datetime")
      */
     private $lastUpdated;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="login", type="string", length=255)
+     */
+    private $login;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="modifiedBy", type="integer")
+     */
+    private $modifiedBy;
 
 
     /**
@@ -58,7 +72,7 @@ class Symfony
      *
      * @param string $name
      *
-     * @return Symfony
+     * @return users
      */
     public function setName($name)
     {
@@ -78,27 +92,27 @@ class Symfony
     }
 
     /**
-     * Set description
+     * Set password
      *
-     * @param string $description
+     * @param string $password
      *
-     * @return Symfony
+     * @return users
      */
-    public function setDescription($description)
+    public function setPassword($password)
     {
-        $this->description = $description;
+        $this->password = $password;
 
         return $this;
     }
 
     /**
-     * Get description
+     * Get password
      *
      * @return string
      */
-    public function getDescription()
+    public function getPassword()
     {
-        return $this->description;
+        return $this->password;
     }
 
     /**
@@ -106,7 +120,7 @@ class Symfony
      *
      * @param \DateTime $lastUpdated
      *
-     * @return Symfony
+     * @return users
      */
     public function setLastUpdated($lastUpdated)
     {
@@ -124,4 +138,53 @@ class Symfony
     {
         return $this->lastUpdated;
     }
+
+    /**
+     * Set login
+     *
+     * @param string $login
+     *
+     * @return users
+     */
+    public function setLogin($login)
+    {
+        $this->login = $login;
+
+        return $this;
+    }
+
+    /**
+     * Get login
+     *
+     * @return string
+     */
+    public function getLogin()
+    {
+        return $this->login;
+    }
+
+    /**
+     * Set modifiedBy
+     *
+     * @param integer $modifiedBy
+     *
+     * @return users
+     */
+    public function setModifiedBy($modifiedBy)
+    {
+        $this->modifiedBy = $modifiedBy;
+
+        return $this;
+    }
+
+    /**
+     * Get modifiedBy
+     *
+     * @return int
+     */
+    public function getModifiedBy()
+    {
+        return $this->modifiedBy;
+    }
 }
+
